@@ -23,14 +23,12 @@ int main() {
         if (type_of_numbers == 1) {
             selected_operation = &Operation_int;
         } else {
-            selected_operation = &Operation_double;
+            selected_operation = &Operation_float;
         }
         matrix = create_matrix(size, size, selected_operation);
 
         printf("\nВаша матрица:\n");
         matrix_print(matrix);
-
-        matrix_del(matrix);
 
         while (type_of_operation != 5) {
             printf("Какую операцию сделать c матрицей? впишите соответствующую цифру\n"
@@ -59,7 +57,10 @@ int main() {
             if (type_of_operation == 5) {
                 break;
             }
+            printf("\nВаша матрица:\n");
+            matrix_print(matrix);
         }
+        matrix_del(matrix);
         printf("Повторить работу программы? 1 — Да, 0 — Нет\n");
         error_int(&flag, 0, 1, "Ошибка: Два варианта: 1 — Да, 0 — Нет\n");
         if (flag == 0) {

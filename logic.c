@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct {
     size_t size;
@@ -20,17 +21,17 @@ void print_int(const void* in) {
     printf("%d ", *(int*)in); 
 }
 
-void input_double(void* out) { 
-    scanf("%lf", (double*)out); 
+void input_float(void* out) { 
+    scanf("%f", (float*)out); 
 }
-void print_double(const void* in) { 
-    printf("%.2f ", *(double*)in); 
+void print_float(const void* in) { 
+    printf("%.2f ", *(float*)in); 
 }
 
 Matrix* create_matrix(int r, int c, TypeInfo* operation) {
     Matrix* m = malloc(sizeof(Matrix));
     if (m == NULL) {
-        fprintf(stderr, "Ошибка выделения памяти\n");
+        printf("Ошибка: недостаточно памяти\n");
         return 0;
     }
     m->row = r;
@@ -60,7 +61,7 @@ void matrix_del(Matrix* m) {
     free(m);
 }
 
-void error_double(int *variable, int left_boarder, int right_boarder, char error_text[]) {
+void error_float(int *variable, int left_boarder, int right_boarder, char error_text[]) {
     int c;
     int var = *variable;
     while (1) {
