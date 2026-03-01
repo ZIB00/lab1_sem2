@@ -10,6 +10,9 @@ int main() {
     int type_of_operation = 0; //Тип операции над матрицей
     int flag = 0; //Нужен для выяснения необходимости повторить программу
     int c = 0; //Для getchar()
+    int scalar_int;
+    float scalar_float;
+    int row_from, row_to;
     TypeInfo* selected_operation;
     Matrix* matrix1;
     Matrix* matrix2;
@@ -61,7 +64,7 @@ int main() {
                         printf("Ошибка: недостаточно памяти\n");
                         break;
                     }
-                    matrix_addition(matrix1, matrix2, matrix_result);
+                    matrix_sum(matrix1, matrix2, matrix_result);
                     printf("Матрица 1\n");
                     matrix_print(matrix1);
                     printf("Матрица 2\n");
@@ -75,13 +78,71 @@ int main() {
                     printf("Теперь это ваша матрица. Итак..\n");
                     break;
                 case 2:
+                    printf("Задайте матрицу на которую будете умножать\n"
+                        "Важно: она того же размера, что и исходная, а именно %dx%d\n", size, size);
+                    matrix2 = create_matrix(size, size, selected_operation);
+                    matrix_result = malloc(sizeof(Matrix));
+                    if (matrix_result == NULL) {
+                        printf("Ошибка: недостаточно памяти\n");
+                        break;
+                    };
+                    matrix_result->column = size;
+                    matrix_result->row = size;
+                    matrix_result->operation = selected_operation;
+                    matrix_result->data = malloc(size * size * selected_operation->size);
+                    if (matrix_result->data == NULL) {
+                        printf("Ошибка: недостаточно памяти\n");
+                        break;
+                    }
                     matrix_multiplication(matrix1, matrix2, matrix_result);
+                    printf("Матрица 1\n");
+                    matrix_print(matrix1);
+                    printf("Матрица 2\n");
+                    matrix_print(matrix2);
+                    printf("Результат\n");
+                    matrix_print(matrix_result);
+                    matrix_buffer = matrix1;
+                    matrix1 = matrix_result;
+                    matrix_del(matrix_buffer);
+                    matrix_del(matrix2);
+                    printf("Теперь это ваша матрица. Итак..\n");
                     break;
                 case 3:
-                    multiplication_by_a_scalar(matrix1, matrix2, matrix_result);
+                    printf("Задайте число, на которое умножите матрицу\n");
+                    if (type_of_numbers == 1) {
+                        error_int(&scalar_int, 1, 0, "Ошибка: введите целое число\n");
+                        multiplication_by_a_scalar(matrix1, scalar_int, matrix_result);
+                    } else {
+                        error_float(&scalar_float, 1, 0, "Ошибка: введите вещественное число\n");
+                        multiplication_by_a_scalar(matrix1, scalar_float, matrix_result);
+                    }
+                    matrix_buffer = matrix1;
+                    matrix1 = matrix_result;
+                    matrix_del(matrix_buffer);
+                    printf("Результат\n");
+                    matrix_print(matrix_result);
+                    printf("Теперь это ваша матрица. Итак..\n");
                     break;
                 case 4:
-                    adding_a_linear_combination(matrix1, matrix2, matrix_result);
+                    printf("Какую строку хотите прибавить?\n");
+                    error_int(&row_from, 1, size, "Ошибка: выберете номер строки\n");
+                    printf("К какой строке её хотите прибавить?\n"
+                        "Важно: это должна быть не та же строка\n");
+                    while (1) {
+                        if (scanf("%d", &row_to) == 1 && row_to >= 1 && row_to <= size && row_to != row_from && (c = getchar()) != '\n' && c != EOF) {
+                            break;
+                        }
+                        while ((c = getchar()) != '\n' && c != EOF);
+                        printf("%s", "Ошибка: неккоректное значение");      
+                    }
+                    error_int(&row_to, 1, size, "Ошибка: выберете номер строки\n");
+                    adding_a_linear_combination(matrix1, row_from, row_to, matrix_result);
+                    matrix_buffer = matrix1;
+                    matrix1 = matrix_result;
+                    matrix_del(matrix_buffer);
+                    printf("Результат\n");
+                    matrix_print(matrix_result);
+                    printf("Теперь это ваша матрица. Итак..\n");
                     break;
                 default:
                     break;
