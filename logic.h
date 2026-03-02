@@ -23,15 +23,15 @@ typedef struct {
 extern TypeInfo operation_int;
 extern TypeInfo operation_float;
 
-Matrix* create_matrix(int r, int c, TypeInfo* operation);
-Matrix* create_empty_matrix(int r, int c, TypeInfo* operation);
+Matrix* create_matrix(unsigned int r, unsigned int c, TypeInfo* operation);
+Matrix* create_empty_matrix(unsigned int r, unsigned int c, TypeInfo* operation);
 void matrix_print(Matrix* m);
 void matrix_del(Matrix* m);
 
-void matrix_sum(Matrix* m1, Matrix* m2, Matrix* m_r);
-void matrix_multiplication(Matrix* m1, Matrix* m2, Matrix* m_r);
-void multiplication_by_a_scalar(Matrix* m1, void* scalar, Matrix* m_r);
-void adding_a_linear_combination(Matrix* m, int r_from, int r_to, void* scalar);
+int matrix_sum(Matrix* m1, Matrix* m2, Matrix* m_r);
+int matrix_multiplication(Matrix* m1, Matrix* m2, Matrix* m_r);
+int multiplication_by_a_scalar(Matrix* m1, void* scalar, Matrix* m_r);
+int adding_a_linear_combination(Matrix* m, int r_from, int r_to, void* scalar);
 
 void error_int(int *variable, int left, int right, char text[]);
 void error_float(float *variable, float left, float right, char text[]);

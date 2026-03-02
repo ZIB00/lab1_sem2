@@ -60,7 +60,7 @@ static void* get_location(Matrix* m, int r, int c) {
     return (char*)m->data + (r * m->column + c) * m->operation->size;
 }
 
-Matrix* create_empty_matrix(int r, int c, TypeInfo* operation) {
+Matrix* create_empty_matrix(unsigned int r, unsigned int c, TypeInfo* operation) {
     Matrix* m = malloc(sizeof(Matrix));
     if (m == NULL) { printf("Ошибка: недостаточно памяти\n"); return NULL; }
 
@@ -71,7 +71,7 @@ Matrix* create_empty_matrix(int r, int c, TypeInfo* operation) {
     return m;
 }
 
-Matrix* create_matrix(int r, int c, TypeInfo* operation) {
+Matrix* create_matrix(unsigned int r, unsigned int c, TypeInfo* operation) {
     Matrix* m = create_empty_matrix(r, c, operation);
 
     if (m != NULL) {
